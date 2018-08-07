@@ -1,6 +1,6 @@
 const { href } = location;
 
-import uuidv5 from '../../../node_modules/uuid/v5.js';
+import uuidv5 from 'uuid/v5';
 
 // serialize rails forms
 // needed due to user[email] field naming format

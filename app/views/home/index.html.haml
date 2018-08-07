@@ -1,7 +1,7 @@
 .container
   $100
 
-  = form_with(model: Widget.new) do |f|
+  = form_with(model: Widget.new, id: 'add_to_cart_form') do |f|
     .form-group
       = f.select :size, options_for_select(Widget::SIZES), {}, class: 'form-control'
     .form-group

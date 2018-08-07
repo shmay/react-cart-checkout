@@ -11,7 +11,7 @@ class AddToCartView {
 
       App.cart.pushWidget(widget)
 
-      drawer.cartChanged();
+      App.drawer.lineItemAdded();
     }
   }
 }
