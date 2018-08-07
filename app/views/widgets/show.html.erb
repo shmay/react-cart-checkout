@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Size:</strong>
+  <%= @widget.size %>
+</p>
+
+<p>
+  <strong>Thickness:</strong>
+  <%= @widget.thickness %>
+</p>
+
+<p>
+  <strong>Color:</strong>
+  <%= @widget.color %>
+</p>
+
+<%= link_to 'Edit', edit_widget_path(@widget) %> |
+<%= link_to 'Back', widgets_path %>

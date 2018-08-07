@@ -1,0 +1,12 @@
+.container
+  $100
+
+  = form_with(model: Widget.new) do |f|
+    .form-group
+      = f.select :size, options_for_select(Widget::SIZES), {}, class: 'form-control'
+    .form-group
+      = f.select :thickness, options_for_select(Widget::THICKNESS), {}, class: 'form-control'
+    .form-group
+      = f.select :color, options_for_select(Widget::COLORS), {}, class: 'form-control'
+    .form-group
+      = f.submit "Add to Cart", class: 'btn btn-primary'
