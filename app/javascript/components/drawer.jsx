@@ -1,11 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
 import bindAll from 'lodash/bindAll';
+import CartMenu from './cart_menu.jsx';
 
 class Drawer extends React.Component {
   constructor() {
     super()
-    this.state = {open: false};
+    this.state = {widgets: [], open: false};
     bindAll(this, ['clickClose'])
   }
 
@@ -13,11 +14,12 @@ class Drawer extends React.Component {
     return {open: true, slightlyOpen: true, fullyExpanded: false}
   }
 
-  lineItemAdded() {
+  widgetAdded() {
     this.cartChanged(this.sneakInState())
   }
 
   cartChanged(attrs = {}) {
+    Object.assign(attrs, {widgets: App.cart.toStatefulJSON()})
     this.setState(attrs);
   }
 
@@ -37,6 +39,8 @@ class Drawer extends React.Component {
     return (
       <div id='drawer' className={`is-initialized ${drawerClass}`}>
         <div className='close' onClick={this.clickClose}>×</div>
+
+        <CartMenu widgets={this.state.widgets} />
       </div>
     )
   }

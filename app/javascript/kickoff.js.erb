@@ -1,0 +1,28 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Cart from './models/cart.js';
+import Drawer from './components/drawer.jsx';
+import WidgetForm from './components/widget_form.jsx';
+
+window.App = {};
+window.App.cart = new Cart;
+
+App.svgs = <%= SvgHelper.svgs_to_json %>
+
+document.addEventListener('DOMContentLoaded', () => {
+  const drawer = React.createElement(Drawer);
+
+  App.drawer = ReactDOM.render(
+    drawer,
+    document.body.appendChild(document.createElement('div'))
+  )
+
+  const widgetForm = React.createElement(WidgetForm);
+
+  let container = document.querySelector('.container')
+
+  App.widgetForm = ReactDOM.render(
+    widgetForm,
+    container.appendChild(document.createElement('div'))
+  )
+})

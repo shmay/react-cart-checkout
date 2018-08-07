@@ -1,0 +1,20 @@
+.cart-menu {
+  max-width: 375px;
+  position: relative;
+
+  .cart__notice {
+    font-size: 11px;
+    clear: both;
+    padding-top: 10px;
+    text-align: center;
+    color: #4c4c4c;
+  }
+
+  .btn-cart-checkout {
+    width: 100%;
+  }
+
+  .cart-bottom {
+    padding-bottom: 10px;
+  }
+}

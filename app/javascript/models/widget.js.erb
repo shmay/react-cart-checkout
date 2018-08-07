@@ -1,8 +1,8 @@
 const sizes = <%= Widget::SIZES %>;
 const thickness = <%= Widget::THICKNESS %>;
-const colors = <%= Widget::COLORS %>;
+const colors = <%= Widget::COLORS.reverse %>;
 
-const price_cents = <%= Widget::PRICE_CENTS %>;
+const widget_price_cents = <%= Widget::PRICE_CENTS %>;
 
 class Widget {
   constructor(attrs) {
@@ -10,15 +10,28 @@ class Widget {
     this.thickness = attrs.thickness
     this.size = attrs.size
     this.key = this.getSemanticKey()
+    this.quantity = attrs.quantity || 1;
+  }
+
+  getName() {
+    return `${this.color} / ${this.thickness} / ${this.size}`
   }
 
   getSemanticKey() {
     return `${this.color}-${this.thickness}-${this.size}`;
   }
 
+  incrementQuantity() {
+    this.quantity += 1
+  }
+
+  decrementQuantity() {
+    this.quantity -= 1
+  }
+
   // is this widget equal to another?
   eq(widget) {
-    return self.key === widget.key
+    return this.key === widget.key
   }
 
   toJSON() {
@@ -29,6 +42,23 @@ class Widget {
       quantity: this.quantity
     };
   }
+
+  // min # of attrs we need to give react the state it wants
+  toStatefulJSON() {
+    return {
+      quantity: this.quantity,
+      key: this.key
+    }
+  }
+
+  total() {
+    return widget_price_cents * this.quantity;
+  }
+
+  static getSizes() { return sizes; }
+  static getThickness() { return thickness; }
+  static getColors() { return colors; }
+  static getBasePriceCents() { return widget_price_cents; }
 }
 
 export default Widget;

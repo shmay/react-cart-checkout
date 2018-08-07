@@ -1,7 +1,14 @@
 import Widget from './widget.js.erb';
+import reduce from 'lodash/reduce';
+import map from 'lodash/map';
 
 class Cart {
   constructor() {
+    this.widgets = null;
+  }
+
+  toJSON() {
+    return JSON.parse(JSON.stringify(this.getWidgets()))
   }
 
   getWidgets() {
@@ -10,10 +17,56 @@ class Cart {
     let widgets = JSON.parse(localStorage.getItem('widgets')) || [];
     widgets = widgets.map(w => new Widget(w));
 
-    return this.line_items = line_items;
+    return this.widgets = widgets;
   }
 
   pushWidget(widget) {
+    let existing_widget;
+
+    if ((existing_widget = this.findWidget(widget))) {
+      existing_widget.quantity += 1;
+    } else {
+      this.getWidgets().push(widget);
+    }
+
+    this.saveCart();
+  }
+
+  toStatefulJSON() {
+    return map(this.getWidgets(), w => w.toStatefulJSON())
+  }
+
+  saveCart(new_widgets) {
+    const widget_json = new_widgets || this.getWidgets();
+    localStorage.setItem('widgets', JSON.stringify(widget_json));
+  }
+
+  clearCart() { this.saveCart([]); }
+
+  calcSubtotal() {
+    return reduce(this.getWidgets(), (memo, widget) => {
+      return memo + widget.total()
+    }, 0);
+  }
+
+  calcShipping() {
+    return 5000;
+  }
+
+  calcTaxes() {
+    return parseInt(this.calcSubtotal() * 0.085);
+  }
+
+  calcTotal() {
+    return this.calcSubtotal() + this.calcTaxes() + this.calcShipping();
+  }
+
+  findWidget(widget) {
+    return this.getWidgets().find(w => widget.eq(w));
+  }
+
+  findWidgetByKey(key) {
+    return this.getWidgets().find(w => w.key === key)
   }
 }
 

@@ -2,34 +2,6 @@ const { href } = location;
 
 import uuidv5 from 'uuid/v5';
 
-// serialize rails forms
-// needed due to user[email] field naming format
-export const serializeRailsForm = function(form) {
-  const json = {};
-  let arr = null;
-
-  let formJson = serializeForm(form)
-  for (name in formJson) {
-    arr = name.split(/\[|\]/);
-
-    if (arr.length > 1) {
-      json[arr[1]] = formJson[name];
-    }
-  }
-
-  return json;
-}
-
-//export const serializeForm = function(form) {
-//  const json = {};
-//
-//  for (let input of Array.from(serializeForm(form))) {
-//    json[input.name] = input.value;
-//  }
-//
-//  return json;
-//}
-
 export const serializeForm = function(form) {
 		var obj = {};
 		var elements = form.querySelectorAll( "input, select, textarea" );
@@ -45,7 +17,7 @@ export const serializeForm = function(form) {
     return obj;
 	}
 
-// code taken from: http://stackoverflow.com/a/33286686/548170
+// http://stackoverflow.com/a/33286686/548170
 export const centsToDollaString = function(x, dollar_sign) {
   if (dollar_sign == null) { dollar_sign = true; }
   let cents = x + '';

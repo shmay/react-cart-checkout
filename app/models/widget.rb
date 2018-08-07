@@ -4,12 +4,12 @@ class Widget < ApplicationRecord
   PRICE_CENTS = 10000 # $100
 
   COLORS = [
-    'blue',
-    'yellow',
-    'red'
+    'red',
+    'green',
+    'blue'
   ].freeze
 
-  SIZES = ['12px', '15px', '20px'].freeze
+  SIZES = ['80px', '100px', '120px'].freeze
 
-  THICKNESS = ['solid', 'regular', 'thin'].freeze
+  THICKNESS = ['solid', 'regular', 'light'].freeze
 end
