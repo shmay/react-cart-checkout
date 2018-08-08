@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import bindAll from 'lodash/bindAll';
 import CartMenu from './cart_menu.jsx';
+import AddressForm from './address_form.jsx';
 
 class Drawer extends React.Component {
   constructor() {
@@ -18,9 +19,17 @@ class Drawer extends React.Component {
     this.cartChanged(this.sneakInState())
   }
 
+  checkoutState(page) {
+    return Object.assign(this.expandedState(), {checkoutPage: page})
+  }
+
   cartChanged(attrs = {}) {
     Object.assign(attrs, {widgets: App.cart.toStatefulJSON()})
     this.setState(attrs);
+  }
+
+  expandedState() {
+    return {open: true, slightlyOpen: false, fullyExpanded: true}
   }
 
   sneakInState() {
@@ -29,6 +38,23 @@ class Drawer extends React.Component {
 
   clickClose(e) {
     this.setState({open: false, slightlyOpen: false, fullyExpanded: false});
+  }
+
+  beginCheckout() {
+    this.setState(this.checkoutState('address'))
+  }
+
+  renderMenu() {
+    if (this.state.checkoutPage) {
+      switch (this.state.checkoutPage) {
+        case 'address':
+          return (<AddressForm />)
+      }
+    } else {
+      return (
+        <CartMenu widgets={this.state.widgets} />
+      )
+    }
   }
 
   render() {
@@ -40,7 +66,7 @@ class Drawer extends React.Component {
       <div id='drawer' className={`is-initialized ${drawerClass}`}>
         <div className='close' onClick={this.clickClose}>×</div>
 
-        <CartMenu widgets={this.state.widgets} />
+        {this.renderMenu()}
       </div>
     )
   }

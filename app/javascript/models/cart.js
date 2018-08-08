@@ -43,6 +43,10 @@ class Cart {
 
   clearCart() { this.saveCart([]); }
 
+  removeWidget(widget) {
+    this.widgets = this.widgets.filter(w => !w.eq(widget));
+  }
+
   calcSubtotal() {
     return reduce(this.getWidgets(), (memo, widget) => {
       return memo + widget.total()

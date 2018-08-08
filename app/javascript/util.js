@@ -47,3 +47,12 @@ export const genUUID = function() {
 export const capitalizeFirstLetter = function(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+export const getLabelFor = function(attr, options = {}) {
+  let str = capitalizeFirstLetter(attr.replace('_', ' '))
+  if (options.optional) {
+    str = `${str} (optional)`
+  }
+
+  return str;
+}
