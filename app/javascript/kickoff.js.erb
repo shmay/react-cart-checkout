@@ -8,6 +8,7 @@ window.App = {};
 window.App.cart = new Cart;
 
 App.svgs = <%= SvgHelper.svgs_to_json %>
+App.dummyAddresses = <%= File.open("#{Rails.root}/lib/data/address_dummy_data.json").read %>
 
 document.addEventListener('DOMContentLoaded', () => {
   const drawer = React.createElement(Drawer);

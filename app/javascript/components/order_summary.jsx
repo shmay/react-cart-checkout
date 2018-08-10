@@ -35,11 +35,17 @@ class OrderSummary extends React.Component {
   }
 
   renderWidget(widget) {
+    let width = parseInt(widget.size.replace('px', '')) / 4
+    let svg = App.svgs[`cogs-${widget.thickness}`]
+
     return (
       <div className="cart-item d-flex justify-content-between" key={widget.key}>
         <div className="d-flex">
           <div className="item__image">
-            <img src={this.img} />
+            <div style={{width: 35, height: 35}}>
+              <div className='mt-2' style={{width: width, fill: widget.color}} dangerouslySetInnerHTML={{__html: svg}}>
+              </div>
+            </div>
             <span className="product-thumbnail__quantity">{widget.quantity}</span>
           </div>
           <div className="item-text d-flex flex-column">
@@ -47,7 +53,7 @@ class OrderSummary extends React.Component {
             <span className="cart-item__title">SLO Widget</span>
           </div>
         </div>
-        <div>{item.getFormattedPrice()}</div>
+        <div>{widget.getFormattedPrice()}</div>
       </div>
     )
   }
@@ -63,16 +69,16 @@ class OrderSummary extends React.Component {
 
     const divStyle = this.state.open ? {height: `${this.height}px`} : {height: 0}
 
+    let cartSvg = App.svgs.cart
+
     return (
       <div className='order-summary-hold'>
         <button className="order-summary-btn" onClick={(e) => this.clickButton(e)}>
           <div className="order-summary-inner d-flex justify-content-between">
             <div className="layout horizontal">
-              <div className="order-summary-toggle__icon-wrapper">
-                <svg className="order-summary-toggle__icon mr-2" height="19" width="20" xmlns="http://www.w3.org/2000/svg">
-
-                  <path d="M17.178 13.088H5.453c-.454 0-.91-.364-.91-.818L3.727 1.818H0V0h4.544c.455 0 .91.364.91.818l.09 1.272h13.45c.274 0 .547.09.73.364.18.182.27.454.18.727l-1.817 9.18c-.09.455-.455.728-.91.728zM6.27 11.27h10.09l1.454-7.362H5.634l.637 7.362zm.092 7.715c1.004 0 1.818-.813 1.818-1.817s-.814-1.818-1.818-1.818-1.818.814-1.818 1.818.814 1.817 1.818 1.817zm9.18 0c1.004 0 1.817-.813 1.817-1.817s-.814-1.818-1.818-1.818-1.818.814-1.818 1.818.814 1.817 1.818 1.817z"></path>
-                </svg>
+              <div className="order-summary-toggle__icon-wrapper" >
+                <div className='cart-svg-hold' dangerouslySetInnerHTML={{__html: cartSvg}}>
+                </div>
               </div>
               <div className="order-summary-toggle__text order-summary-toggle__text--show">
                 <span>Show order summary</span>

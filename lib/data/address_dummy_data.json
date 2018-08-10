@@ -1,0 +1,32 @@
+{"addresses": [
+  {
+    "email": "jojo@blah.com",
+    "first_name": "jojo",
+    "last_name": "dejo",
+    "address1": "1234 fake st",
+    "company": "dejo's co",
+    "city": "los osos",
+    "state": "CA",
+    "zip": "93402"
+  },
+  {
+    "email": "nada@blah.com",
+    "first_name": "nada",
+    "last_name": "resada",
+    "address1": "222 howard st",
+    "company": "dejo's co",
+    "city": "san francisco",
+    "state": "CA",
+    "zip": "94102"
+  },
+  {
+    "email": "wada@blah.com",
+    "first_name": "mojo",
+    "last_name": "brown",
+    "address1": "333 brown st",
+    "company": "brown's co",
+    "city": "springfield",
+    "state": "Illinois",
+    "zip": "62629"
+  }
+]}

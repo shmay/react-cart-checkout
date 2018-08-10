@@ -21,6 +21,7 @@ gem 'webpacker'
 gem 'bootstrap', '~> 4.1.3'
 
 gem 'haml'
+gem 'annotate'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'

@@ -1,0 +1,50 @@
+@import 'flexbox-mixins.scss';
+
+.shipping-hold {
+  padding-top: 50px;
+}
+
+@media (min-width: 1000px) {
+  .shipping-hold {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    height: 100%;
+
+    .order-summary-hold {
+      @include polymer-flex;
+      flex: 0.8;
+      height: 100%;
+      border-left: 1px solid #e6e6e6;
+    }
+
+    .address-form-hold {
+      @include display-flex;
+      @include polymer-flex;
+      @include justify-content(flex-end);
+      padding-right: 50px;
+      height: 100%;
+    }
+  }
+
+  #shipping_form {
+    max-width: 638px;
+  }
+
+  .order-summary-hold {
+    background: #fafafa;
+  }
+
+  .summary-hold {
+    max-width: 418px;
+    overflow: initial;
+  }
+
+  button.order-summary-btn {
+    display: none;
+  }
+
+  .order-summary {
+    height: 100% !important;
+  }
+}

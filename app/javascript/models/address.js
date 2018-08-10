@@ -21,6 +21,8 @@ const auto_complete_map = {
 
 import { genUUID } from '../util.js';
 
+import map from 'lodash/map';
+
 class Address {
   constructor(vals) {
     this.toJSON = this.toJSON.bind(this);
@@ -61,7 +63,7 @@ class Address {
     if (this.addresses) { return this.addresses; }
 
     const addresses = JSON.parse(localStorage.getItem('addresses')) || [];
-    this.addresses = _.map(addresses, addr => new App.Address(addr));
+    this.addresses = map(addresses, a => new Address(a));
 
     return this.addresses;
   }

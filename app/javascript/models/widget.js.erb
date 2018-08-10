@@ -4,6 +4,8 @@ const colors = <%= Widget::COLORS.reverse %>;
 
 const widget_price_cents = <%= Widget::PRICE_CENTS %>;
 
+import { centsToDollaString } from '../util.js';
+
 class Widget {
   constructor(attrs) {
     this.color = attrs.color
@@ -15,6 +17,10 @@ class Widget {
 
   getName() {
     return `${this.color} / ${this.thickness} / ${this.size}`
+  }
+
+  getFormattedPrice() {
+    return centsToDollaString(widget_price_cents * (this.quantity || 0));
   }
 
   getSemanticKey() {

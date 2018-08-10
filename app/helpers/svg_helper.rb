@@ -12,16 +12,17 @@ module SvgHelper
 
     svg = Nokogiri::HTML(File.open(file_path).read).css('svg')[0]
 
-    SVG_ATTRS_TO_REMOVE.each {|a| svg.attributes[a].remove() }
+    SVG_ATTRS_TO_REMOVE.each {|a| svg.attributes[a]&.remove() }
 
     path = svg.css('path')[0]
 
-    PATH_ATTRS_TO_REMOVE.each {|p| path.attributes[p].remove() }
+    PATH_ATTRS_TO_REMOVE.each {|p| path.attributes[p]&.remove() }
 
     [name, svg.to_html]
   end.to_h.with_indifferent_access.freeze
 
   def self.svgs_to_json
+    binding.pry
     SVG_MAP.to_json
   end
 

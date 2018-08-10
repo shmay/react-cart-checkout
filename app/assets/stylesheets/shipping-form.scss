@@ -1,0 +1,30 @@
+form#shipping_form {
+  .form-group {
+    position: relative;
+
+    &.has-error {
+      input[type="text"] {
+        border-color: $danger;
+         &:focus {
+          box-shadow: 0 0 0 0.2rem rgba(220,53,69,.25);
+        }
+      }
+
+      .error-message {
+        display: block;
+      }
+    }
+  }
+
+  .error-message {
+    display: none;
+    color: $danger;
+    position: absolute;
+    top: 66px;
+    left: 5px;
+  }
+
+  .submit-hold {
+    padding-top: 1rem;
+  }
+}
