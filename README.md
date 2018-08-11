@@ -1,24 +1,3 @@
-# README
+Friend's friend needed a way to sell a single product, so I started building something for that... then I decided to use React since I needed to learn it.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Then he just wisely used Shopify.  But I didn't want to entirely abandon what I had built.
