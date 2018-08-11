@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# grab font awesome svgs from app/assets/svgs
+# grab svgs from app/assets/svgs
 # strip unused attributes, but expose the raw svg html
 # so that svgs can be easily styled
 module SvgHelper
@@ -22,7 +22,6 @@ module SvgHelper
   end.to_h.with_indifferent_access.freeze
 
   def self.svgs_to_json
-    binding.pry
     SVG_MAP.to_json
   end
 

@@ -12,12 +12,10 @@ class Drawer extends React.Component {
   }
 
   open() {
-    return {open: true, slightlyOpen: true, fullyExpanded: false}
-  }
-
-  widgetAdded() {
     this.cartChanged(this.sneakInState())
   }
+
+  widgetAdded() { this.open() }
 
   checkoutState(page) {
     return Object.assign(this.expandedState(), {checkoutPage: page})

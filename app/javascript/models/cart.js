@@ -1,6 +1,7 @@
 import Widget from './widget.js.erb';
 import reduce from 'lodash/reduce';
 import map from 'lodash/map';
+import sumBy from 'lodash/sumBy';
 
 class Cart {
   constructor() {
@@ -39,12 +40,24 @@ class Cart {
   saveCart(new_widgets) {
     const widget_json = new_widgets || this.getWidgets();
     localStorage.setItem('widgets', JSON.stringify(widget_json));
+
+    App.drawer.cartChanged()
+
+    if (widget_json.length === 1) {
+      setTimeout(() => App.cartTab.cartChanged(), 500)
+    } else {
+      App.cartTab.cartChanged()
+    }
   }
 
   clearCart() { this.saveCart([]); }
 
   removeWidget(widget) {
     this.widgets = this.widgets.filter(w => !w.eq(widget));
+  }
+
+  numWidgets() {
+    return sumBy(this.getWidgets(), w => w.quantity)
   }
 
   calcSubtotal() {

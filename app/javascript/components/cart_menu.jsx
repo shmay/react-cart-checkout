@@ -6,35 +6,34 @@ import { centsToDollaString } from '../util.js';
 class CartMenu extends React.Component {
   constructor() {
     super()
-    this.cart = window.App.cart;
     this.renderWidget = this.renderWidget.bind(this);
   }
 
   decrementQuantity(e, key) {
-    let widget = this.cart.findWidgetByKey(key)
+    let widget = App.cart.findWidgetByKey(key)
     widget.decrementQuantity()
     this.checkIfQuantityZero(widget)
   }
 
   incrementQuantity(e, key) {
-    let widget = this.cart.findWidgetByKey(key)
+    let widget = App.cart.findWidgetByKey(key)
     widget.incrementQuantity()
     this.checkIfQuantityZero(widget)
   }
 
   handleChange(e, key) {
-    let widget = this.cart.findWidgetByKey(key);
+    let widget = App.cart.findWidgetByKey(key);
     widget.quantity = parseInt(e.target.value);
+
     this.checkIfQuantityZero(widget)
   }
 
   checkIfQuantityZero(widget) {
     if (widget.quantity < 1) {
-      this.cart.removeWidget(widget)
+      App.cart.removeWidget(widget)
     }
 
-    this.cart.saveCart()
-    App.drawer.cartChanged()
+    App.cart.saveCart();
   }
 
   beginCheckout() {
@@ -42,7 +41,7 @@ class CartMenu extends React.Component {
   }
 
   renderWidget(key) {
-    let widget = this.cart.findWidgetByKey(key)
+    let widget = App.cart.findWidgetByKey(key)
 
     let width = parseInt(widget.size.replace('px', '')) / 4
     let svg = App.svgs[`cogs-${widget.thickness}`]
@@ -89,7 +88,7 @@ class CartMenu extends React.Component {
         <div className="cart-bottom">
           <div className="layout horizontal justified">
             <p className="cart__subtotal__text">SUBTOTAL</p>
-            <p className="cart__subtotal__price">{centsToDollaString(this.cart.calcSubtotal())}</p>
+            <p className="cart__subtotal__price">{centsToDollaString(App.cart.calcSubtotal())}</p>
           </div>
           <p className="cart__notice">Shipping calculated by zip code at checkout.</p>
           <button className="btn btn-success btn btn-cart-checkout" onClick={(e) => this.beginCheckout()}>CHECKOUT</button>

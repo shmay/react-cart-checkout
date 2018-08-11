@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Cart from './models/cart.js';
 import Drawer from './components/drawer.jsx';
 import WidgetForm from './components/widget_form.jsx';
+import CartTab from './components/cart_tab.jsx';
 
 window.App = {};
 window.App.cart = new Cart;
@@ -25,5 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
   App.widgetForm = ReactDOM.render(
     widgetForm,
     container.appendChild(document.createElement('div'))
+  )
+
+  const cartTab = React.createElement(CartTab);
+
+  App.cartTab = ReactDOM.render(
+    cartTab,
+    document.body.appendChild(document.createElement('div'))
   )
 })

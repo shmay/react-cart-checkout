@@ -1,0 +1,28 @@
+.cart-tab {
+  background-color: #78b657;
+  color: #fff;
+  border-radius: 3px 0 0 3px;
+  padding: 8px 10px;
+  text-align: center;
+  display: inline-block;
+  min-width: 46px;
+  margin-right: 0;
+  cursor: pointer;
+  transition: background 200ms ease;
+
+  &:hover {
+    background-color: #5f9d3e;
+  }
+
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  z-index: 10;
+
+  .cart-tab-svg-hold {
+    fill: white;
+    width: 30px;
+  }
+}
