@@ -96,9 +96,19 @@ class AddressForm extends React.Component {
     })
   }
 
+  removeAddress(e, address) {
+    e.preventDefault()
+
+    Address.delete(address)
+
+    this.setState({
+      addresses: sortBy(Address.getAll(), a => !a.default)
+    })
+  }
+
   renderAddress(address) {
     return (
-      <div key={address.uuid} className="d-flex align-items-center mt-4">
+      <div key={address.uuid} className="address d-flex align-items-center mt-4">
         <FormGroup check className="mx-2 d-flex align-items-center">
           <Label check>
             <Input type="radio" name="default" defaultChecked={address.default} />{' '}
@@ -106,10 +116,14 @@ class AddressForm extends React.Component {
         </FormGroup>
 
         <div style={{minWidth: '50%'}} className="pr-2">
-          <h5>{address.first_name} {address.last_name}</h5>
+          <h5>{address.first_name} {address.last_name}<i className='address-email ml-2'>{address.email}</i></h5>
           <div>{address.address1}</div>
           <div>{address.city} {address.state} {address.zip}</div>
           <div>{address.country}</div>
+        </div>
+
+        <div className="pl-2 align-self-end">
+          <a onClick={e => this.removeAddress(e, address)} href='#' className='text-danger'>remove</a>
         </div>
       </div>
     )

@@ -20,11 +20,10 @@ const auto_complete_map = {
 }
 
 import bindAll from 'lodash/bindAll';
-import setWith from 'lodash/setWith';
+import map from 'lodash/map';
+import reject from 'lodash/reject';
 
 import { genUUID, push } from '../util.js';
-
-import map from 'lodash/map';
 
 class Address {
   constructor(vals = {}) {
@@ -65,9 +64,6 @@ class Address {
       credentials: 'same-origin'
     }).then(res => res.json())
       .then((json) => {
-        let s = setWith;
-        let j = json;
-
         if (!this.emailUnique()) {
           push(json, 'errors.email', 'email is not unique')
         }
@@ -111,6 +107,16 @@ class Address {
   static isOptionalAttr(attr) {
     return optional_attrs.includes(attr);
   }
+
+  static remove(addr) {
+    this.addresses = reject(this.getAll(), a => addr.uuid === a.uuid)
+  }
+
+  static delete(addr) {
+    Address.remove(addr);
+    Address.saveToLocalStorage();
+  }
+
 
   valid() {
     this.errors = []
