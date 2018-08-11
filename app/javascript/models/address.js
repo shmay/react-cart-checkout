@@ -6,7 +6,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 const internal_attrs = ['uuid', 'billing', 'id', 'default']
-const form_attrs = ['first_name', 'last_name', 'company', 'address1', 'address2', 'city', 'state', 'zip'];
+const form_attrs = ['email', 'first_name', 'last_name', 'company', 'address1', 'address2', 'city', 'state', 'zip'];
 
 const optional_attrs = ['company']
 const all_attrs = [].concat(internal_attrs).concat(form_attrs);
@@ -19,35 +19,44 @@ const auto_complete_map = {
   address2: 'address-line2'
 }
 
-import { genUUID } from '../util.js';
+import bindAll from 'lodash/bindAll';
+import setWith from 'lodash/setWith';
+
+import { genUUID, push } from '../util.js';
 
 import map from 'lodash/map';
 
 class Address {
-  constructor(vals) {
-    this.toJSON = this.toJSON.bind(this);
-    if (vals == null) { vals = {}; }
+  constructor(vals = {}) {
+    bindAll(this, ['toJSON', 'emailUnique']);
+
     for (let a of Array.from(all_attrs)) {
       this[a] = vals[a];
     }
 
-    if (!vals.uuid) { this.uuid = genUUID(vals.email); }
+    if (!vals.uuid) {
+      this.uuid = genUUID(vals.email);
+    }
   }
 
   toJSON() {
     const json = {};
 
-    for (let a of Array.from(all_attrs)) {
+    for (let a of all_attrs) {
       json[a] = this[a];
     }
 
     return json;
   }
 
-  static validate(attrs, successCb) {
-    fetch('/api/addresses/validate', {
+  emailUnique() {
+    return !Address.getAll().some(a => a.email === this.email)
+  }
+
+  validate(successCb) {
+    fetch('/api/addresses/validate.json', {
       method: 'POST', // or 'PUT'
-      body: JSON.stringify(attrs),
+      body: JSON.stringify(this.toJSON()),
       headers: new Headers({
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -55,8 +64,16 @@ class Address {
       }),
       credentials: 'same-origin'
     }).then(res => res.json())
-      .catch(error => alert('an error occurred while trying to validate this address'))
-      .then(successCb)
+      .then((json) => {
+        let s = setWith;
+        let j = json;
+
+        if (!this.emailUnique()) {
+          push(json, 'errors.email', 'email is not unique')
+        }
+
+        successCb(json)
+      })
   }
 
   static getAll() {
@@ -94,6 +111,19 @@ class Address {
   static isOptionalAttr(attr) {
     return optional_attrs.includes(attr);
   }
+
+  valid() {
+    this.errors = []
+
+    Address.getAll().forEach((a) => {
+      if (a.email === this.email) {
+        this.errors.push('Email already exists')
+      }
+    });
+
+    return this.errors.length > 1
+  }
+
 }
 
 export default Address;

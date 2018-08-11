@@ -1,6 +1,9 @@
 const { href } = location;
 
 import uuidv5 from 'uuid/v5';
+import set from 'lodash/set';
+import get from 'lodash/get';
+import tap from 'lodash/tap';
 
 export const serializeForm = function(form) {
 		var obj = {};
@@ -55,4 +58,16 @@ export const getLabelFor = function(attr, options = {}) {
   }
 
   return str;
+}
+
+// similar to lodash's `set`, but for pushing onto an array
+// creates a new array with the `val` as its only value if nothing's there
+export const push = function(object, path, val) {
+  let arr = get(object, path);
+
+  if (arr) {
+    arr.push(val)
+  } else {
+    set(object, path, [val])
+  }
 }

@@ -1,10 +1,9 @@
 class Api::AddressesController < ApiController
   def validate
     address = Address.new(address_params)
-    address.valid?
 
     if address.valid?
-      render json: address
+      render json: address.tap {|a| a.default = true }
     else
       render json: {errors: address.errors}
     end

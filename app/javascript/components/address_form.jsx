@@ -21,14 +21,16 @@ class AddressForm extends React.Component {
     this.state = {
       errors: {},
       logged_in: false,
-      addresses: addresses || []
+      addresses: addresses || [],
+      addAnotherAddress: false
     }
 
   }
 
   submitAddress(e) {
     e.preventDefault()
-    Address.validate(serializeForm(e.currentTarget), (response) => {
+    let addr = new Address(serializeForm(e.currentTarget))
+    addr.validate((response) => {
       if (Object.keys(response.errors || {}).length) {
         this.setState({errors: response.errors})
       } else {
@@ -36,8 +38,12 @@ class AddressForm extends React.Component {
         Address.push(new Address(response))
         Address.saveToLocalStorage()
 
-        let addresses = sortBy(Address.getAll(), a => !a.default)
-        this.setState({ addresses: addresses })
+        let addresses = sortBy(Address.getAll(), a => !a.default);
+
+        this.setState({
+          addresses: addresses,
+          addAnotherAddress: false
+        })
       }
     });
   }
@@ -116,7 +122,8 @@ class AddressForm extends React.Component {
   }
 
   renderAddressOrForm() {
-    let addAnotherAddress = this.state.addAnotherAddress
+    let addAnotherAddress = this.state.addAnotherAddress;
+
     if (!addAnotherAddress && this.state.addresses.length) {
       return (
         <div className="pt-2">
@@ -146,7 +153,6 @@ class AddressForm extends React.Component {
                     </a>
                   </div>
                 </div>
-                {this.renderFormGroup('email')}
               </div>
               <div className="layout vertical">
                 {Address.getFormAttrs().map((attr) => this.renderFormGroup(attr))}
