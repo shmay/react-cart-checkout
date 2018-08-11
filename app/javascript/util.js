@@ -39,8 +39,8 @@ export const toCurrencyString = function(n) {
   return n.toFixed(2).replace(/(\d)(?=(\d{3})+\b)/g,'$1,');
 }
 
-export const genUUID = function() {
-  return uuidv5(href, uuidv5.URL);
+export const genUUID = function(email) {
+  return uuidv5(email, uuidv5.URL);
 }
 
 // https://stackoverflow.com/a/1026087/548170

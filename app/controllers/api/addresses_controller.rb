@@ -4,7 +4,7 @@ class Api::AddressesController < ApiController
     address.valid?
 
     if address.valid?
-      render json: address.tap {|a| a.default = true }
+      render json: address
     else
       render json: {errors: address.errors}
     end

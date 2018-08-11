@@ -6,8 +6,8 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 const internal_attrs = ['uuid', 'billing', 'id', 'default']
-const form_attrs = ['first_name', 'last_name', 'company', 'address1',
-                    'address2', 'city', 'state', 'zip'];
+const form_attrs = ['first_name', 'last_name', 'company', 'address1', 'address2', 'city', 'state', 'zip'];
+
 const optional_attrs = ['company']
 const all_attrs = [].concat(internal_attrs).concat(form_attrs);
 
@@ -31,7 +31,7 @@ class Address {
       this[a] = vals[a];
     }
 
-    if (!vals.uuid) { this.uuid = genUUID(); }
+    if (!vals.uuid) { this.uuid = genUUID(vals.email); }
   }
 
   toJSON() {

@@ -25,7 +25,7 @@ class Address < ApplicationRecord
   # http://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html#method-i-validates
   EMAIL_REGEX = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
 
-  validates :email, presence: true, format: {with: EMAIL_REGEX}
+  validates :email, presence: true, format: {with: EMAIL_REGEX}, uniqueness: true
 
   validates_presence_of :address1, :city, :state, :zip
 end

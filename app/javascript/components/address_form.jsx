@@ -3,19 +3,20 @@ import { serializeForm, getLabelFor } from '../util.js';
 import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
 import bindAll from 'lodash/bindAll';
-import { Button } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Button, Tooltip } from 'reactstrap';
 
 import OrderSummary from './order_summary.jsx';
+import AddressBackButton from './address_back_button.jsx';
 import Address from '../models/address.js';
 import classNames from 'classnames';
 
 class AddressForm extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
-    let addresses = sortBy(Address.getAll(), a => a.default)
+    let addresses = sortBy(Address.getAll(), a => !a.default)
 
-    bindAll(this, ['addAnotherAddress']);
+    bindAll(this, ['addAnotherAddress', 'clickAddressBackButton', 'fillInDummyData']);
 
     this.state = {
       errors: {},
@@ -31,8 +32,12 @@ class AddressForm extends React.Component {
       if (Object.keys(response.errors || {}).length) {
         this.setState({errors: response.errors})
       } else {
+        Address.getAll().forEach(a => a.default = false)
         Address.push(new Address(response))
         Address.saveToLocalStorage()
+
+        let addresses = sortBy(Address.getAll(), a => !a.default)
+        this.setState({ addresses: addresses })
       }
     });
   }
@@ -87,10 +92,12 @@ class AddressForm extends React.Component {
 
   renderAddress(address) {
     return (
-      <div key={address.uuid} className="d-flex align-items-center">
-        <div className="px-2 d-flex align-items-center">
-          <input type="radio" name="selected" defaultChecked={address.default} />
-        </div>
+      <div key={address.uuid} className="d-flex align-items-center mt-4">
+        <FormGroup check className="mx-2 d-flex align-items-center">
+          <Label check>
+            <Input type="radio" name="default" defaultChecked={address.default} />{' '}
+          </Label>
+        </FormGroup>
 
         <div style={{minWidth: '50%'}} className="pr-2">
           <h5>{address.first_name} {address.last_name}</h5>
@@ -109,16 +116,17 @@ class AddressForm extends React.Component {
   }
 
   renderAddressOrForm() {
-    if (!this.state.addAnotherAddress && this.state.addresses.length) {
+    let addAnotherAddress = this.state.addAnotherAddress
+    if (!addAnotherAddress && this.state.addresses.length) {
       return (
         <div className="pt-2">
           {this.state.addresses.map(a => this.renderAddress(a))}
 
-          <div className="mt-2">
+          <div className="mt-4">
             <Button onClick={this.addAnotherAddress} outline className="ml-2" color="secondary">Add another address</Button>{' '}
           </div>
 
-          <Button size="lg" className="mt-4 ml-2" color="primary">Continue to payment</Button>{' '}
+          <Button size="lg" className="mt-4 ml-2" color="primary">Continue to payment</Button>
         </div>
       )
     } else {
@@ -128,10 +136,12 @@ class AddressForm extends React.Component {
             <div className="shipping-section">
               <div className="layout vertical">
                 <div className="d-flex justify-content-between align-items-center">
+                  {addAnotherAddress ? <AddressBackButton onClick={this.clickAddressBackButton} /> : null}
+
                   <h5>Contact info & address</h5>
 
                   <div>
-                    <a className='text-warning' href='#' onClick={this.fillInDummyData.bind(this)}>
+                    <a className='text-info' href='#' onClick={this.fillInDummyData}>
                       Fill in dummy data
                     </a>
                   </div>
@@ -141,9 +151,10 @@ class AddressForm extends React.Component {
               <div className="layout vertical">
                 {Address.getFormAttrs().map((attr) => this.renderFormGroup(attr))}
               </div>
-              <div className="form-group submit-hold">
-                <input className="btn btn-info submit-shipping" type="submit" value="Continue to payment method" />
-              </div>
+
+              <Button size="lg" className="${addAnotherAddress ? 'mt-2' : 'mt-4'} mb-4 ml-2" color="primary">
+                {addAnotherAddress ? 'Add Address' : 'Continue to payment'}
+              </Button>
             </div>
           </form>
         </div>
@@ -151,23 +162,15 @@ class AddressForm extends React.Component {
     }
   }
 
-  renderBackButtonIfNecessary() {
-    debugger
-    if (this.state.addresses.length && this.state.addAnotherAddress) {
-      return (
-        <div className='back-button'>
-          {App.svgs['long-arrow-alt-left']}
-        </div>
-      )
-    } else {
-      return null;
-    }
+  clickAddressBackButton(e) {
+    this.setState({
+      addAnotherAddress: false
+    })
   }
 
   render() {
     return (
       <div className="shipping-hold">
-        {this.renderBackButtonIfNecessary()}
         <OrderSummary />
 
         {this.renderAddressOrForm()}
