@@ -140,19 +140,21 @@ class AddressForm extends React.Component {
 
     if (!addAnotherAddress && this.state.addresses.length) {
       return (
-        <div className="pt-2">
-          {this.state.addresses.map(a => this.renderAddress(a))}
+        <div>
+          <div style={{minWidth: 450}}>
+            {this.state.addresses.map(a => this.renderAddress(a))}
 
-          <div className="mt-4">
-            <Button onClick={this.addAnotherAddress} outline className="ml-2" color="secondary">Add another address</Button>{' '}
+            <div className="mt-4">
+              <Button onClick={this.addAnotherAddress} outline className="ml-2" color="secondary">Add another address</Button>{' '}
+            </div>
+
+            <Button size="lg" className="mt-4 ml-2" color="primary">Continue to payment</Button>
           </div>
-
-          <Button size="lg" className="mt-4 ml-2" color="primary">Continue to payment</Button>
         </div>
       )
     } else {
       return (
-        <div className='address-form-hold pt-2'>
+        <div className='address-form-hold'>
           <form action="/" id="shipping_form" onSubmit={(e) => this.submitAddress(e) }>
             <div className="shipping-section">
               <div className="layout vertical">
@@ -193,7 +195,9 @@ class AddressForm extends React.Component {
       <div className="shipping-hold">
         <OrderSummary />
 
-        {this.renderAddressOrForm()}
+        <div className='address-hold pt-2'>
+          {this.renderAddressOrForm()}
+        </div>
       </div>
     )
   }

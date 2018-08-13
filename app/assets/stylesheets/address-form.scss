@@ -6,3 +6,11 @@
 .address-email {
   font-size: 12px;
 }
+
+@media (min-width: 1000px) {
+  .address-hold {
+    @include display-flex;
+    @include justify-content(flex-end);
+    @include polymer-flex;
+  }
+}
